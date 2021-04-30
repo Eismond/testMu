@@ -2,6 +2,9 @@ $(window).load(() => {
     $("button.MuiFab-root:contains('Fill')").click(() => {
 
         let defaultFiller = '-';
+        function getRandomInt(max = 9) {
+          return Math.floor(Math.random() * max) * 1000;
+        }
 
         const validationDigits = (selector) => {
             const numInputs = document.querySelectorAll(selector);
@@ -13,13 +16,19 @@ $(window).load(() => {
             })
         }
 
-        function showModalByTime(selector, time = 6000) {
+        function showModalByTime(selector, time = getRandomInt(), autoHide = false) {
             setTimeout(() => {
                 document.querySelector(selector).style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                if (autoHide) {
+                    setTimeout(() => {
+                        document.querySelector(selector).style.display = 'none';
+                        document.body.style.overflow = 'visible';
+                    }, time * 3);
+                }
             }, time)
         }
-
+        showModalByTime('#modal', getRandomInt() , true);
 
         function dataGeneralFormatted (data, defaultFiller = '') {
             let {desc, email, firstPhone, secondaryPhone, name, workers} = data;
